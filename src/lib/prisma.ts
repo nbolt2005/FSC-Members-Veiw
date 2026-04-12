@@ -12,8 +12,8 @@ import { PrismaClient } from '@prisma/client'
  * locally or in CI), not for runtime queries on Vercel. If it isn't set we
  * fall back to DATABASE_URL so the client can be instantiated without error.
  */
-if (!process.env.DIRECT_URL && process.env.DATABASE_URL) {
-  process.env.DIRECT_URL = process.env.DATABASE_URL
+if (!process.env.DATABASE_URL_UNPOOLED && process.env.DATABASE_URL) {
+  process.env.DATABASE_URL_UNPOOLED = process.env.DATABASE_URL
 }
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined }

@@ -3,11 +3,11 @@ generator client {
 }
 
 datasource db {
-  // DATABASE_URL  — pooled (PgBouncer) connection, used at runtime
-  // DIRECT_URL    — direct connection, used by `prisma migrate` / `db push`
+  // DATABASE_URL          — pooled (PgBouncer) connection, used at runtime
+  // DATABASE_URL_UNPOOLED — direct connection, used by `prisma migrate` / `db push`
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 // ─── Enums ──────────────────────────────────────────────────────────────────
