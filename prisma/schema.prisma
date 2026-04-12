@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // DATABASE_URL  — pooled (PgBouncer) connection, used at runtime
+  // DIRECT_URL    — direct connection, used by `prisma migrate` / `db push`
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum Role {
+  MEMBER
+  TRIP_LEAD
+  ADMIN
+}
+
+enum TripStatus {
+  DRAFT   // not yet visible to members
+  OPEN    // accepting signups
+  FULL    // at capacity; new signups go to waitlist
+  CLOSED  // past or cancelled
+}
+
+enum AnnouncementType {
+  FIELD_NOTES  // post-trip writeups
+  CLUB         // general club news
+  ADMIN        // admin / logistics
+  TRIP         // trip-specific updates
+}
+
+enum NotificationType {
+  FIELD_NOTES
+  NEW_TRIP
+  ANNOUNCEMENT
+  EVENT
+  TRIP_UPDATE
+  GEAR_REMINDER
+  ACTION_ITEM
+}
+
+// ─── Models ─────────────────────────────────────────────────────────────────
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  fullName       String
+  phone          String?
+  emergencyName  String?
+  emergencyPhone String?
+  // FSC-assigned member ID (e.g. "FSC-042"); null until assigned by admin
+  fieldStudiesId String?  @unique
+  bio            String?
+  role           Role     @default(MEMBER)
+  createdAt      DateTime @default(now())
+
+  signups         TripSignup[]
+  waitlistEntries WaitlistEntry[]
+  gearCheckouts   GearCheckout[]
+  // Trips this user leads (via tripLeadId on Trip)
+  ledTrips        Trip[]         @relation("TripLead")
+  announcements   Announcement[]
+  notifications   Notification[]
+}
+
+model Trip {
+  id              String     @id @default(cuid())
+  title           String
+  location        String
+  description     String
+  startAt         DateTime
+  endAt           DateTime
+  capacity        Int
+  priceCents      Int        // stored in cents — avoids floating-point issues
+  status          TripStatus @default(DRAFT)
+  difficulty      String?    // "Easy" | "Moderate" | "Strenuous"
+  mileage         Float?
+  // Optional trip lead (FK to User)
+  tripLeadId      String?
+  // Post-signup info (shown to confirmed members only)
+  slackChannelUrl String?
+  foodProvided    Boolean?   // null = not specified
+  venmoHandle     String?    // e.g. "@FieldStudiesClub"
+
+  tripLead      User?          @relation("TripLead", fields: [tripLeadId], references: [id])
+  signups       TripSignup[]
+  waitlist      WaitlistEntry[]
+  // Gear packing list for this trip
+  gearList      TripGearItem[]
+  announcements Announcement[]
+}
+
+model TripSignup {
+  id        String   @id @default(cuid())
+  userId    String
+  tripId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  trip Trip @relation(fields: [tripId], references: [id])
+
+  @@unique([userId, tripId])
+}
+
+model WaitlistEntry {
+  id       String @id @default(cuid())
+  userId   String
+  tripId   String
+  // Scoped per trip — computed in transaction as MAX(position)+1
+  position Int
+
+  user User @relation(fields: [userId], references: [id])
+  trip Trip @relation(fields: [tripId], references: [id])
+
+  @@unique([userId, tripId])
+  @@unique([tripId, position])
+}
+
+model GearItem {
+  id                String @id @default(cuid())
+  name              String
+  quantityTotal     Int
+  quantityAvailable Int
+
+  checkouts GearCheckout[]
+}
+
+model GearCheckout {
+  id           String    @id @default(cuid())
+  userId       String
+  gearItemId   String
+  quantity     Int
+  checkedOutAt DateTime  @default(now())
+  dueAt        DateTime
+  returnedAt   DateTime?
+
+  user     User     @relation(fields: [userId], references: [id])
+  gearItem GearItem @relation(fields: [gearItemId], references: [id])
+}
+
+// Gear packing list item for a specific trip
+// provided=true  → club supplies it (available from gear shed)
+// provided=false → member must bring their own
+model TripGearItem {
+  id       String  @id @default(cuid())
+  tripId   String
+  name     String
+  provided Boolean @default(false)
+
+  trip Trip @relation(fields: [tripId], references: [id])
+}
+
+// Club announcements — Field Notes, general club news, admin updates, trip info
+model Announcement {
+  id        String           @id @default(cuid())
+  title     String
+  body      String
+  type      AnnouncementType
+  tripId    String?          // links to a trip for TRIP-type announcements
+  authorId  String
+  createdAt DateTime         @default(now())
+
+  author User  @relation(fields: [authorId], references: [id])
+  trip   Trip? @relation(fields: [tripId], references: [id])
+}
+
+// In-app notifications sent to individual members
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  body      String
+  read      Boolean          @default(false)
+  linkUrl   String?
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
