@@ -51,7 +51,7 @@ export default function LeadLoginForm() {
           </svg>
         </div>
         <h1 className="text-2xl font-bold text-gray-900">Trip Lead Portal</h1>
-        <p className="text-sm text-gray-500 mt-1">Sign in with your @fieldstudie.org email</p>
+        <p className="text-sm text-gray-500 mt-1">Sign in with your @fieldstudiesclub.org email</p>
       </div>
 
       {/* Form */}
@@ -66,7 +66,7 @@ export default function LeadLoginForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="yourname@fieldstudie.org"
+              placeholder="yourname@fieldstudiesclub.org"
               className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -87,7 +87,7 @@ export default function LeadLoginForm() {
         </form>
 
         <p className="text-xs text-gray-400 text-center mt-4">
-          Only @fieldstudie.org addresses are accepted
+          Only @fieldstudiesclub.org addresses are accepted
         </p>
       </div>
     </div>

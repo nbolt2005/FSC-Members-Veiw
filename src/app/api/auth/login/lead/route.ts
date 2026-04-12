@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
  * POST /api/auth/login/lead
  * Body: { email: string }
  *
- * Trip leads authenticate with a @fieldstudie.org email.
+ * Trip leads authenticate with a @fieldstudiesclub.org email.
  * Creates account on first login with TRIP_LEAD role.
  */
 export async function POST(request: NextRequest) {
@@ -18,9 +18,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Email is required' }, { status: 400 })
   }
 
-  if (!normalized.endsWith('@fieldstudie.org')) {
+  if (!normalized.endsWith('@fieldstudiesclub.org')) {
     return NextResponse.json(
-      { error: 'Trip lead login requires a @fieldstudie.org email address' },
+      { error: 'Trip lead login requires a @fieldstudiesclub.org email address' },
       { status: 403 }
     )
   }

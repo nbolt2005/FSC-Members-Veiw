@@ -60,7 +60,7 @@ export default function LoginPage() {
                 I'm a Trip Lead
               </div>
               <div className="text-sm text-gray-500 mt-0.5">
-                Manage your trips · @fieldstudie.org
+                Manage your trips · @fieldstudiesclub.org
               </div>
             </div>
             <svg className="w-5 h-5 text-gray-300 group-hover:text-blue-500 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
