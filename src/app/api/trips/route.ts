@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { TripStatus } from '@prisma/client'
 
+export const dynamic = 'force-dynamic'
+
 /** GET /api/trips — returns all non-DRAFT trips ordered by start date */
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 /**
  * POST /api/auth/select
  * Sets the demo `userId` cookie so server components know which user is active.

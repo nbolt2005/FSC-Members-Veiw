@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 /** PUT /api/notifications/read — marks all of the current user's notifications as read */
 export async function PUT(request: NextRequest) {
   const userId = request.cookies.get('userId')?.value
