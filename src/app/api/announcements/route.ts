@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { AnnouncementType } from '@prisma/client'
 
+export const dynamic = 'force-dynamic'
+
 /** GET /api/announcements?type=CLUB — returns announcements, newest first */
 export async function GET(request: NextRequest) {
   const type = request.nextUrl.searchParams.get('type') as AnnouncementType | null
