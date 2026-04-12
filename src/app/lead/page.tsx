@@ -63,9 +63,15 @@ export default async function LeadDashboardPage() {
           <h1 className="text-2xl font-bold text-gray-900">{user.fullName}</h1>
           <p className="text-gray-500 text-sm mt-0.5">{user.email}</p>
         </div>
-        <div className="text-right flex-shrink-0">
-          <div className="text-2xl font-bold text-gray-900">{ledTrips.length}</div>
-          <div className="text-xs text-gray-400">total trips</div>
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <Link href="/lead/trips/library"
+            className="text-xs font-medium text-gray-500 hover:text-gray-700 border border-gray-200 hover:border-gray-300 px-4 py-2 rounded-full transition-colors">
+            My Trips
+          </Link>
+          <Link href="/lead/trips/new"
+            className="text-xs font-semibold text-white bg-green-700 hover:bg-green-800 px-4 py-2 rounded-full transition-colors">
+            + Create Trip
+          </Link>
         </div>
       </div>
 
@@ -98,7 +104,7 @@ export default async function LeadDashboardPage() {
               const fullPct     = Math.min(100, Math.round((trip._count.signups / trip.capacity) * 100))
 
               return (
-                <div key={trip.id} className="bg-white border border-gray-200 rounded-2xl p-5">
+                <div key={trip.id} className="bg-white border border-gray-200 rounded-2xl p-5 relative">
                   {/* Trip header */}
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="min-w-0">
@@ -111,6 +117,9 @@ export default async function LeadDashboardPage() {
                         {STATUS_LABELS[trip.status] ?? trip.status}
                       </span>
                       <div className="text-sm font-semibold text-gray-900 mt-2">{formatPrice(trip.priceCents)}</div>
+                      <Link href={`/lead/trips/${trip.id}`} className="block text-xs text-blue-600 hover:text-blue-800 mt-2">
+                        Manage →
+                      </Link>
                     </div>
                   </div>
 

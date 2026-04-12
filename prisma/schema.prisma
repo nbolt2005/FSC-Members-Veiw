@@ -72,20 +72,40 @@ model Trip {
   id              String     @id @default(cuid())
   title           String
   location        String
-  description     String
+  description     String?
   startAt         DateTime
   endAt           DateTime
   capacity        Int
-  priceCents      Int        // stored in cents — avoids floating-point issues
+  priceCents      Int        @default(0) // stored in cents
   status          TripStatus @default(DRAFT)
-  difficulty      String?    // "Easy" | "Moderate" | "Strenuous"
+  difficulty      String?
   mileage         Float?
   // Optional trip lead (FK to User)
   tripLeadId      String?
   // Post-signup info (shown to confirmed members only)
   slackChannelUrl String?
-  foodProvided    Boolean?   // null = not specified
-  venmoHandle     String?    // e.g. "@FieldStudiesClub"
+  foodProvided    Boolean?
+  venmoHandle     String?
+  // ── Portal trip fields (from trip creation flow) ──────────────────────
+  imageURL        String?    // Vercel Blob URL
+  nights          Int        @default(0)
+  driversNeeded   Int        @default(0)
+  gasPerCar       Int        @default(0)    // dollars per car
+  distance        Int        @default(0)    // round-trip miles
+  campsite        Int        @default(0)    // total campsite cost $
+  permits         Int        @default(0)    // total permit cost $
+  mealsIncluded   Boolean    @default(false)
+  mealsBudget     Int        @default(0)
+  insurance       Boolean    @default(true)
+  misc            Int        @default(0)
+  trailLink       String?    // campsite confirmation URL
+  uniqueTripId    String?    // slug e.g. "SykesHotSprings260412"
+  outlineDocURL   String?
+  packListURL     String?
+  tentCarsSheetURL String?
+  // Airtable record IDs (for bi-directional sync)
+  airtableId      String?    // TRIPLEAD base record ID
+  fscAirtableId   String?    // FSC main base Overnight Trip Tracker ID
 
   tripLead      User?          @relation("TripLead", fields: [tripLeadId], references: [id])
   signups       TripSignup[]
