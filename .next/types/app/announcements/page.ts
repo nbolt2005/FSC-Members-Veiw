@@ -1,4 +1,4 @@
-// File: /Users/nbolt2005/Desktop/apps/FSC/FSC-Portal-V1.1/FSC-Members-Veiw/src/app/announcements/page.tsx
+// File: /Users/nbolt2005/Desktop/apps/FSC/FSC-Members-Veiw/src/app/announcements/page.tsx
 import * as entry from '../../../../src/app/announcements/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -70,6 +70,12 @@
       "namedRegex": "^/announcements(?:/)?$"
     },
     {
+      "page": "/browse",
+      "regex": "^/browse(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/browse(?:/)?$"
+    },
+    {
       "page": "/calendar",
       "regex": "^/calendar(?:/)?$",
       "routeKeys": {},
@@ -82,10 +88,34 @@
       "namedRegex": "^/gear(?:/)?$"
     },
     {
+      "page": "/lead",
+      "regex": "^/lead(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/lead(?:/)?$"
+    },
+    {
       "page": "/login",
       "regex": "^/login(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/login/lead",
+      "regex": "^/login/lead(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login/lead(?:/)?$"
+    },
+    {
+      "page": "/login/member",
+      "regex": "^/login/member(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login/member(?:/)?$"
+    },
+    {
+      "page": "/member",
+      "regex": "^/member(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/member(?:/)?$"
     },
     {
       "page": "/my-trips",

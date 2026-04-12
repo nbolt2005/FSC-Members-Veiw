@@ -1,4 +1,4 @@
-// File: /Users/nbolt2005/Desktop/apps/FSC/FSC-Portal-V1.1/FSC-Members-Veiw/src/app/api/gear/route.ts
+// File: /Users/nbolt2005/Desktop/apps/FSC/FSC-Members-Veiw/src/app/api/gear/route.ts
 import * as entry from '../../../../../src/app/api/gear/route.js'
 import type { NextRequest } from 'next/server.js'
 
